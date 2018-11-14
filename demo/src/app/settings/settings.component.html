@@ -1,0 +1,116 @@
+<div class="container">
+    <div class="row pt-5">
+      <div class="col-6">
+        <h3 class="card-header primary-color white-text">Usuarios</h3>
+        <div class="card card-body">                    
+          <table class="table table-striped">
+            <thead>
+              <tr >
+                <th>#</th>
+                <th>Usuario</th>
+                <th>Rol</th>
+                <th>Opciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of this.userService.users, let i = index;">
+                <th scope="row">{{i+1}}</th>
+                <td>{{user.username}}</td>
+                <td>{{user.role}}</td>
+                <td>
+                  <i class="fa fa-pencil text-primary" aria-hidden="true"></i> 
+                  <i class="fa fa-trash text-danger" (click)="deleteUser(user._id)" aria-hidden="true"></i>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row"><i class="fa fa-plus-circle text-success" aria-hidden="true" (click)="form.show()"></i></th>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-6">
+        <h3 class="card-header primary-color white-text">Categorias</h3>
+        <div class="card card-body">                    
+          <div class="row">
+            <div class="chip col-3 waves-effect" *ngFor="let cat of this.categoryService.categories">
+                <i class="close fa fa-times blue-grey-text pt-1 top0" (click)="deleteCategory(cat._id)"></i>
+                {{cat.name}}             
+            </div>
+            <div class="chip col-3 waves-effect">
+              <input type="text" class="input categoryInput" [(ngModel)]="newCat" />
+                <i class="close fa fa-plus blue-grey-text pt-1 top0" (click)="createCategory()"></i>                      
+            </div>
+          </div>        
+        </div>
+      </div>
+      <!-- row -->
+    </div>
+  </div>
+  
+  
+<!--Modal: Login Form-->
+<div mdbModal #form="mdb-modal" class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+
+            <!--Header-->
+            <div class="modal-header light-blue darken-3 white-text">
+                <h4 class="title"><i class="fa fa-user-plus"></i> Registrar usuario</h4>
+                <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close" (click)="form.hide()">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+                <ngx-select [allowClear]="true"
+                [items]="items"
+                [noAutoComplete]="true"
+                [(ngModel)]="role"
+                placeholder="Seleccione un rol">
+              </ngx-select>
+<!--                 <div class="md-form form-sm">
+                    <i class="fa fa-envelope prefix"></i>
+                    <input mdbActive type="text" class="form-control">
+                    <label for="">Usuario</label>
+                </div> -->
+                <div class="md-form">
+                  <i class="fa fa-envelope prefix"></i>
+                  <input mdbInputDirective type="text" id="form2" class="form-control" [(ngModel)]="username" 
+                  [validateSuccess]="false" [validateError]="false">
+                  <label for="form2">Usuario</label>
+                </div>
+                <div class="md-form">
+                    <i class="fa fa-lock prefix"></i>
+                    <input mdbInputDirective type="password" class="form-control" [(ngModel)]="password1" 
+                    [validateSuccess]="false" [validateError]="false">
+                    <label for="form2">Contraseña</label>
+                </div>
+
+                <div class="md-form">
+                  <i class="fa fa-lock prefix"></i>
+                  <input mdbInputDirective type="password" class="form-control" [(ngModel)]="password2" 
+                  [validateSuccess]="false" [validateError]="false">
+                  <label for="form3">Repetir Contraseña</label>
+                </div>
+                
+
+
+
+
+                <div class="text-center mt-2">
+                    <button mdbBtn  (click)="register(form)" class="btn btn-info waves-light" mdbWavesEffect>Registrar <i class="fa fa-sign-in ml-1"></i></button>
+                </div>
+
+            </div>
+
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!--Modal: Login Form-->
+                

@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row pt-5">
+    <div class="col-6">
+      <h3 class="card-header primary-color white-text">Graficas</h3>
+      <div class="card card-body">                      
+        <div style="display: block">
+          <canvas mdbChart 
+              [chartType]="chartType"
+              [datasets]="chartDatasets" 
+              [labels]="chartLabels"
+              [colors]="chartColors"
+              [options]="chartOptions"
+              [legend]="true">
+          </canvas>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <h3 class="card-header primary-color white-text">Opciones</h3>
+      <div class="card card-body">                      
+        <h3>Por hacer:</h3>
+        <p>Selector de fechas, tipo de grafica, mostrar resumen</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--Panel-->
+
+<!--/.Panel-->
+                

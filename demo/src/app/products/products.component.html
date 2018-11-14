@@ -1,0 +1,586 @@
+<div class="container">
+    <div class="row pt-5">
+        <div class="col-12" *ngIf="currentFootwear">
+                <h3 class="card-header primary-color white-text">Detalles</h3>
+                <div class="card card-body">     
+                    <div class="row">
+                        <div class="col-4 text-center">
+                            <!--Carousel Wrapper-->
+                            <mdb-carousel [isControls]="true" class="carousel slide carousel-fade" [animation]="'fade'">
+                                <!--First slide-->
+                                <mdb-carousel-item *ngFor="let image of this.footwearService.tempImages">
+                                    <div class="view w-100">
+                                        <img class="d-block w-100" src="{{image.images}}" alt="{{image.color}}" onerror="this.src='assets/images/no-image.png';">
+                                        <div class="mask rgba-black-light waves-light" mdbWavesEffect></div>
+                                    </div>
+                                    <div class="carousel-caption">
+                                        <h3 class="h3-responsive">{{image.color}}</h3>
+                                    </div>
+                                </mdb-carousel-item>
+                                <!--/First slide-->
+                            </mdb-carousel>
+                            <!--/.Carousel Wrapper-->
+                            <img *ngIf='this.footwearService.tempImages.length==0' class="d-block w-100" src="assets/images/no-image.png"><br/>
+                        </div>
+                        <div class="col-4 pt-3">
+                            <span class="font-weight-bold">Nombre: </span><span>{{this.footwearService.footwear.name}}</span><br/>
+                            <span class="font-weight-bold">Descripción: </span>
+                            <p>{{this.footwearService.footwear.description}}</p>
+                        </div>
+                        <div class="col-4 pt-3">
+                            <span class="font-weight-bold">Precio de Compra: </span><span>S/.{{this.footwearService.footwear.cost|number:'1.2-2'}}</span><br/>
+                            <span class="font-weight-bold">Precio de Venta: </span><span>S/.{{this.footwearService.footwear.price|number:'1.2-2'}}</span><br/>
+                            <span class="font-weight-bold">Precio de Factura: </span><span>S/.{{this.footwearService.footwear.billPrice|number:'1.2-2'}}</span><br/>
+                            <span class="font-weight-bold">Categorias: </span><span *ngFor="let cat of this.footwearService.footwear.categories">{{cat.name}} </span><br/>
+                        </div>
+                    </div>          
+                </div>
+            </div>
+      <div class="col-12 mb-5">
+        <h3 class="card-header primary-color white-text">Registrar Producto</h3>
+        <div class="card card-body">  
+          <div class="row">             
+              <div class="col-6 ">
+                <ngx-select 
+                  [items]="this.footwearService.footwears"
+                  [(ngModel)]="currentFootwear"
+                  (typed)="typed=$event"
+                  (select)="getFootwear()"
+                  placeholder="Agregue o seleccione el codigo de un producto">
+                </ngx-select>
+              </div>        
+              <div class="col-2">
+                  <button type="button" class="btn btn-default waves-light" mdbWavesEffect (click)='typed.trim()!="" && form.show() || typed!=""' (click)="add()">
+                    <i class="fa fa-plus " aria-hidden="true"></i> Agregar Producto
+                  </button>
+              </div>
+              <div class="col-2">
+                  <button  *ngIf="currentFootwear" type="button" class="btn btn-info waves-light" mdbWavesEffect (click)="editFootwear(form)">
+                    <span><i class="fa fa-pencil " aria-hidden="true"></i></span><span>Editar producto</span>
+                  </button>
+              </div>
+              <div class="col-2">
+                  <button  *ngIf="currentFootwear" type="button" class="btn btn-danger waves-light" mdbWavesEffect (click)="deleteFootwear()">
+                    <span><i class="fa fa-trash " aria-hidden="true"></i></span><span>Eliminar producto</span>
+                  </button>
+              </div>
+              <div class="col-12">
+                <hr/>
+              </div>
+              <div class="mx-auto col-12">
+                <table *ngIf="currentFootwear" class="table table-striped text-center table-responsive">
+                  <thead>
+                    <tr>
+                      <th>Completar Tabla<i class="fa fa-plus-circle text-success" aria-hidden="true" (click)='updateTotalStockModal(fullStockModal)'></i></th>
+                      <th *ngFor='let size of this.footwearService.footwear["sizes"]'>{{size}}<i class="fa fa-plus-circle text-success" aria-hidden="true" (click)='updateStockModal(stockModal,this.footwearService.footwear["colors"],[size])'></i></th>
+                      <th>Agregar tallas <i class="fa fa-plus-circle text-success" aria-hidden="true" (click)="basicModal.show();sizeCat.fill(false)"></i></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor='let color of this.footwearService.footwear["colors"]'>
+                      <th scope="row">{{color}} <i class="fa fa-plus-circle text-success" aria-hidden="true" (click)='updateStockModal(stockModal,[color],this.footwearService.footwear["sizes"])'></i></th>
+                      <td *ngFor='let size of this.footwearService.footwear["sizes"]'>
+                          {{((this.footwearService.footwear["stock"][0]!=null&&this.footwearService.footwear["stock"][0][color]!=null)&&(this.footwearService.footwear["stock"][0][color][size]&&this.footwearService.footwear["stock"][0][color][size]["stock"]+"/"+this.footwearService.footwear["stock"][0][color][size]["webStock"]||"0/0")||"0/0")}} 
+                          <i class="fa fa-pencil text-primary" aria-hidden="true" (click)='updateStockModal(stockModal,[color],[size])'></i></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Agregar colores <i class="fa fa-plus-circle text-success" aria-hidden="true" (click)="demoBasic.show()"></i></th>
+                      <td *ngFor='let size of this.footwearService.footwear["sizes"]'></td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>                                                      
+              </div> 
+          </div>               
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+    
+    <div mdbModal #demoBasic="mdb-modal" class="modal fade" id="basicExample" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header bg-default darken-3 white-text">
+                    <h4 class="title"><i class="fa fa-plus"></i> Agregar Colores</h4>
+                    <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close" (click)="demoBasic.hide()">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+<!--                         <div class="chip col-3 " *ngFor="let tempColor of this.footwearService.tempColors">
+                            <i class="close fa fa-times blue-grey-text pt-1" (click)="deleteColor(tempColor)"></i>
+                            {{tempColor}}             
+                        </div> -->
+                        <div class="chip col-3 waves-effect" *ngFor="let tempColor of this.footwearService.tempColors">
+                            {{tempColor}}  
+                            <i class="close fa fa-times blue-grey-text pt-1" (click)="deleteColor(tempColor)"></i>
+                        </div>
+                        <div class="chip col-3 waves-effect">
+                            <input type="text" class="input categoryInput" [(ngModel)]="newColor" />
+                            <i class="close fa fa-plus blue-grey-text pt-1 top0" (click)="addColor()"></i>                      
+                        </div>
+                    </div>  
+                </div>
+                <div class="modal-footer">
+                        <div class=" mt-2">
+                                <button class="btn btn-info waves-light" mdbWavesEffect (click)="addColors(demoBasic)">Grabar Cambios <i class="fa fa-save ml-1"></i></button>
+                                <button class="btn btn-danger waves-light" mdbWavesEffect data-dismiss="modal" aria-label="Close" (click)="demoBasic.hide()">Cancelar <i class="fa fa-close ml-1"></i></button>
+                            </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div mdbModal #fullStockModal="mdb-modal" class="modal fade" id="basicExample" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header bg-default darken-3 white-text">
+                    <h4 class="title"><i class="fa fa-plus"></i> Agregar Stock</h4>
+                    <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close" (click)="fullStockModal.hide()">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="mx-auto col-12">
+                        <table *ngIf="currentFootwear" class="table table-striped text-center table-responsive">
+                          <thead>
+                            <tr>
+                              <th></th>
+                              <th *ngFor='let size of this.footwearService.footwear["sizes"]'>{{size}}</th>
+                              <th>Agregar tallas</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor='let color of this.footwearService.footwear["colors"];let i1 = index'>
+                              <th scope="row">{{color}}</th>
+                              <td *ngFor='let size of this.footwearService.footwear["sizes"];let i2 = index'>
+                                  <div class="row">
+                                    <div class="col-4 m-0 p-0">
+                                        
+                                        <input class="stockInput" *ngIf="showModal"  mdbActive type="number" [(ngModel)]='stockTotal[i1][i2]' (blur)="formatTotal(i1,i2)"/>
+                                    </div>
+                                    <div class="col-1 m-0 p-0">
+                                        <span>/</span>
+                                    </div>
+                                    <div class="col-4 m-0 p-0">
+                                        <input class="stockInput" *ngIf="showModal" mdbActive type="number" [(ngModel)]='webStockTotal[i1][i2]'/>
+                                    </div>
+                                  </div>
+                              </td>                                  
+                              <td></td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Agregar colores </th>
+                              <td *ngFor='let size of this.footwearService.footwear["sizes"]'></td>
+                              <td></td>
+                            </tr>
+                          </tbody>
+                        </table>                                                      
+                      </div> 
+                </div>
+                <div class="modal-footer">
+                    <div class=" mt-2">
+                        <button class="btn btn-info waves-light" mdbWavesEffect (click)="updateStockTotal(fullStockModal)">Grabar Cambios <i class="fa fa-save ml-1"></i></button>
+                        <button class="btn btn-danger waves-light" mdbWavesEffect data-dismiss="modal" aria-label="Close" (click)="fullStockModal.hide()">Cancelar <i class="fa fa-close ml-1"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  <div mdbModal #basicModal="mdb-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header bg-default darken-3 white-text">
+                    <h4 class="title"><i class="fa fa-plus"></i> Agregar Tallas</h4>
+                    <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close" (click)="basicModal.hide()">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+              <div class="modal-body row">
+                    <div class="col-3">
+                        <input type="checkbox" id="" [(ngModel)]="sizeCat[0]" (ngModelChange)="this.footwearService.sizes.fill($event,0,6)">
+                        <label for=""><h5 class="font-weight-bold">Bebes: </h5></label><br/>
+                        <input type="checkbox" id="" [(ngModel)]="sizeCat[1]" (ngModelChange)="this.footwearService.sizes.fill($event,6,12)">
+                        <label for=""><h5 class="font-weight-bold">Pequeño: </h5></label><br/>
+                        <input type="checkbox" id="" [(ngModel)]="sizeCat[2]" (ngModelChange)="this.footwearService.sizes.fill($event,12,17)">
+                        <label for=""><h5 class="font-weight-bold">Mediano: </h5></label><br/>
+                        <input type="checkbox" id="" [(ngModel)]="sizeCat[3]" (ngModelChange)="this.footwearService.sizes.fill($event,17)">
+                        <label for=""><h5 class="font-weight-bold">Grande: </h5></label><br/>
+                    </div>
+                    <div class="col-9">
+                            <div class="form-inline mb-3">
+
+                                    <div class="form-group ml-5">
+                                        <input type="checkbox" id="" [(ngModel)]="this.footwearService.sizes[0]">
+                                        <label for="">21</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="checkbox" id="" [(ngModel)]="this.footwearService.sizes[1]">
+                                        <label for="">22</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="checkbox" id="" [(ngModel)]="this.footwearService.sizes[2]">
+                                        <label for="">23</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="checkbox" id="" [(ngModel)]="this.footwearService.sizes[3]">
+                                        <label for="">24</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="checkbox" id="" [(ngModel)]="this.footwearService.sizes[4]">
+                                        <label for="">25</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="checkbox" id="" [(ngModel)]="this.footwearService.sizes[5]">
+                                        <label for="">26</label>
+                                    </div>
+                                </div>
+                            <div class="form-inline mb-3">
+        
+                                    <div class="form-group ml-5">
+                                        <input type="checkbox" id="" [(ngModel)]="this.footwearService.sizes[6]">
+                                        <label for="">27</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="checkbox" id="" [(ngModel)]="this.footwearService.sizes[7]">
+                                        <label for="">28</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="checkbox" id="" [(ngModel)]="this.footwearService.sizes[8]">
+                                        <label for="">29</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="checkbox" id="" [(ngModel)]="this.footwearService.sizes[9]">
+                                        <label for="">30</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="checkbox" id="" [(ngModel)]="this.footwearService.sizes[10]">
+                                        <label for="">31</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="checkbox" id="" [(ngModel)]="this.footwearService.sizes[11]">
+                                        <label for="">32</label>
+                                    </div>
+                                </div>
+                            <div class="form-inline mb-3">
+        
+                                    <div class="form-group ml-5">
+                                        <input type="checkbox" id="" [(ngModel)]="this.footwearService.sizes[12]">
+                                        <label for="">33</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="checkbox" id="" [(ngModel)]="this.footwearService.sizes[13]">
+                                        <label for="">34</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="checkbox" id="" [(ngModel)]="this.footwearService.sizes[14]">
+                                        <label for="">35</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="checkbox" id="" [(ngModel)]="this.footwearService.sizes[15]">
+                                        <label for="">36</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="checkbox" id="" [(ngModel)]="this.footwearService.sizes[16]">
+                                        <label for="">37</label>
+                                    </div>
+                                </div>
+                            <div class="form-inline mb-3">
+        
+                                    <div class="form-group ml-5">
+                                        <input type="checkbox" id="" [(ngModel)]="this.footwearService.sizes[17]">
+                                        <label for="">38</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="checkbox" id="" [(ngModel)]="this.footwearService.sizes[18]">
+                                        <label for="">39</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="checkbox" id="" [(ngModel)]="this.footwearService.sizes[19]">
+                                        <label for="">40</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="checkbox" id="" [(ngModel)]="this.footwearService.sizes[20]">
+                                        <label for="">41</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="checkbox" id="" [(ngModel)]="this.footwearService.sizes[21]">
+                                        <label for="">42</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="checkbox" id="" [(ngModel)]="this.footwearService.sizes[22]">
+                                        <label for="">43</label>
+                                    </div>
+                                </div>
+                    </div>
+
+              </div>
+              <div class="modal-footer">
+                <div class=" mt-2">
+                    <button class="btn btn-info waves-light" mdbWavesEffect (click)="saveSizes(basicModal,demoBasic)">Grabar Cambios <i class="fa fa-save ml-1"></i></button>
+                    <button class="btn btn-danger waves-light" mdbWavesEffect data-dismiss="modal" aria-label="Close" (click)="basicModal.hide()">Cancelar <i class="fa fa-close ml-1"></i></button>
+                </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div mdbModal #stockModal="mdb-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg mt-5" role="document">
+          <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header bg-default darken-3 white-text">
+                    <h4 class="title"><i class="fa fa-plus"></i> Editar Stock</h4>
+                    <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close" (click)="stockModal.hide()">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+              <div class="modal-body row">
+                  <div class="col-12">
+                    <h5><span class="font-weight-bold">Colores:</span> <span>{{stockColors}}</span></h5>
+                  </div>
+                  <div class="col-12">
+                        <h5><span  class="font-weight-bold">Tallas:</span> <span>{{stockSizes}}</span></h5>
+                  </div>
+                  <div class="col-12">
+                    <hr/>
+                  </div>
+                  <div class="col-6 text-center">
+                        <img *ngIf='url==""' height=100 src="assets/images/no-image.png"><br/>
+                        <img *ngIf='url!=""' [src]="url" height="100"> <br/>
+                        <input #fileInput type="file" (change)="fileChangeEvent($event)" placeholder="Upload file..." multiple/>
+                        <!-- <button type="button" (click)="upload()">Upload</button> -->
+                    </div>
+                    <div class="col-5 text-center" >
+                        <ngx-barcode 
+                        *ngIf='stockColorsSelected.length==1&&stockSizesSelected.length==1&&flag'
+                        [bc-value]='this.footwearService.footwear["stock"][0][stockColorsSelected[0]][stockSizesSelected[0]]["barcode"]' 
+                        [bc-display-value]="true"></ngx-barcode>
+                        
+                        <p
+                        *ngIf='stockColorsSelected.length==1&&stockSizesSelected.length==1&&!(flag)'
+                        >Registra Stock para generar el codigo de barras</p>
+                    </div>
+                    <div class="col-6 text-center pt-3" *ngIf="stockColorsSelected.length==1&&stockSizesSelected.length==1">
+                        <p>Stock actual:{{((this.footwearService.footwear["stock"][0]!=null&&
+                                this.footwearService.footwear["stock"][0][stockColorsSelected[0]]!=null)&&
+                                (this.footwearService.footwear["stock"][0][stockColorsSelected[0]][stockSizesSelected[0].toString()]&&
+                                this.footwearService.footwear["stock"][0][stockColorsSelected[0]][stockSizesSelected[0]]["stock"]
+                                ||0)||0 )}}</p>
+                    </div>
+                    <div class="col-6 mt-3">
+<!--                         <div class="md-form form-sm">
+                            <input mdbActive type="number" id="" class="form-control" step="1" [(ngModel)]="stock" (blur)="format(4)">
+                            <label for="">Aumentar/Disminuir Stock Total</label>
+                        </div> -->
+                        <div class="md-form">
+                            <input mdbInputDirective type="Number" id="" class="form-control" 
+                            step="1" [(ngModel)]="stock" (blur)="format(4)" [validateSuccess]="false" [validateError]="false">
+                            <label for="" class="">Aumentar/Disminuir Stock Total</label>
+                        </div>
+                    </div>
+                    <div class="col-6 text-center pt-3" *ngIf="stockColorsSelected.length==1&&stockSizesSelected.length==1">
+                            <p>Stock Web actual:{{((this.footwearService.footwear["stock"][0]!=null&&
+                                    this.footwearService.footwear["stock"][0][stockColorsSelected[0]]!=null)&&
+                                    (this.footwearService.footwear["stock"][0][stockColorsSelected[0]][stockSizesSelected[0].toString()]&&
+                                    this.footwearService.footwear["stock"][0][stockColorsSelected[0]][stockSizesSelected[0]]["webStock"]
+                                    ||0)||0 )}}</p>
+                    </div>
+                    <div class="col-6 mt-3">
+<!--                         <div class="md-form form-sm">
+                            <input mdbActive type="number" id="" class="form-control" step="1" [(ngModel)]="webStock" [disabled]="stock==null" (blur)="format(5)">
+                            <label for="">Aumentar/Disminuir Stock Web</label>
+                        </div> -->
+                        <div class="md-form">
+                            <input mdbInputDirective type="Number" id="" class="form-control" 
+                            step="1" [(ngModel)]="webStock" (blur)="format(5)" [validateSuccess]="false" [validateError]="false" [disabled]="stock==null">
+                            <label for="" class="">Aumentar/Disminuir Stock Web</label>
+                        </div>
+                    </div>
+
+            </div>
+              <div class="modal-footer">
+                <div class=" mt-2">
+                    <button class="btn btn-info waves-light" mdbWavesEffect (click)="updateStock(stockModal)">Grabar Cambios <i class="fa fa-save ml-1"></i></button>
+                    <button class="btn btn-danger waves-light" mdbWavesEffect data-dismiss="modal" aria-label="Close" (click)="stockModal.hide()">Cancelar <i class="fa fa-close ml-1"></i></button>
+                </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+
+<!--Modal: Register Form-->
+<div mdbModal #form="mdb-modal" class="modal fade " id="modalRegister" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <!--Content-->
+        <div class="modal-content">
+
+            <!--Header-->
+            <div class="modal-header bg-default darken-3 white-text">
+                <h4 class="title"><i class="fa fa-plus"></i> Código del producto:{{model}}</h4>
+                <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close" (click)="form.hide()">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-6 ">
+                    <div class="col-12 mt-4">
+<!--                     <div class="md-form form-sm">
+                        <input mdbActive type="text" id="" class="form-control" [(ngModel)]="name" (keyup.enter)="next(1)">
+                        <label for="">Nombre</label>
+                    </div> -->
+                        <div class="md-form">
+                            <input mdbInputDirective type="text" id="" class="form-control" [(ngModel)]="name" (keyup.enter)="next(1)" [validateSuccess]="false" [validateError]="false">
+                            <label for="" class="">Nombre</label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                    <!--Basic textarea-->
+<!--                     <div class="md-form">
+                        <textarea #input1 mdbActive type="text" id="form7" class="md-textarea" [(ngModel)]="description" (keyup.enter)="next(2)"></textarea>
+                        <label for="form7">Descripción</label>
+                    </div> -->
+                        <div class="md-form">
+                            <textarea #input1 type="text" id="form7" class="md-textarea form-control" [(ngModel)]="description" (keyup.enter)="next(2)" mdbInputDirective [validateSuccess]="false" [validateError]="false"></textarea>
+                            <label for="form7">Descripción</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 mt-3">
+<!--                   <div class="md-form form-sm">
+                      <input mdbActive type="text" id="" class="form-control">
+                      <label for="">Código de barras</label>
+                  </div> -->
+<!--                   <div class="md-form form-sm">
+                      <input mdbActive type="text" id="" class="form-control">
+                      <label for="">Código del producto</label>
+                  </div> -->
+                  <div class="row">
+                      <div class="col-1 mr-1 mt-1">
+                          <span class="btn btn-outline-primary waves-effect p-1 topMargin" mdbWavesEffect >S/.</span>                      
+                      </div>
+                      <div class="col-10">
+<!--                           <div class="md-form form-sm">
+                              <input #input2 mdbActive placeholder="Ingrese un valor" type="Number" id="" class="form-control" 
+                              min="0.00" step="0.01" [(ngModel)]="cost" (blur)="format(1)" (keyup.enter)="next(3)">
+                              <label for="">Precio de Compra</label>
+                          </div> -->
+                          <div class="md-form">
+                                <input #input2 mdbInputDirective placeholder="Ingrese un valor" type="Number" id="" class="form-control" 
+                                min="0.00" step="0.01" [(ngModel)]="cost" (blur)="format(1)" (keyup.enter)="next(3)" 
+                                [validateSuccess]="false" [validateError]="false">
+                                <label for="" class="">Precio de Compra</label>
+                            </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-1 mr-1 mt-1">
+                          <span class="btn btn-outline-primary waves-effect  p-1 topMargin" mdbWavesEffect >S/.</span>                      
+                      </div>
+                      <div class="col-10">
+<!--                           <div class="md-form form-sm">
+                              <input #input3 mdbActive placeholder="Ingrese un valor" type="Number" id="" class="form-control" min="0.00" step="0.01" [(ngModel)]="price" (blur)="format(2)" (keyup.enter)="next(4)">
+                              <label for="">Precio de Venta</label>
+                          </div> -->
+                          <div class="md-form">
+                                <input #input2 mdbInputDirective placeholder="Ingrese un valor" type="Number" id="" class="form-control" 
+                                min="0.00" step="0.01" [(ngModel)]="price" (blur)="format(2)" (keyup.enter)="next(4)" 
+                                [validateSuccess]="false" [validateError]="false">
+                                <label for="" class="">Precio de Venta</label>
+                            </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-1 mr-1 mt-1">
+                          <span class="btn btn-outline-primary waves-effect  p-1 topMargin" mdbWavesEffect>S/.</span>                      
+                      </div>
+                      <div class="col-10">
+<!--                           <div class="md-form form-sm">
+                              <input #input4 mdbActive placeholder="Ingrese un valor" type="Number" id="" class="form-control" min="0.00" step="0.01" [(ngModel)]="bill" (blur)="format(3)" [disabled]="price==null" >
+                              <label for="">Precio de Facturación</label>
+                          </div> -->
+                          <div class="md-form">
+                                <input #input2 mdbInputDirective placeholder="Ingrese un valor" type="Number" id="" class="form-control" 
+                                min="0.00" step="0.01" [(ngModel)]="bill" (blur)="format(3)" (keyup.enter)="next(5)" 
+                                [validateSuccess]="false" [validateError]="false" [disabled]="price==null">
+                                <label for="" class="">Precio de Facturación</label>
+                            </div>
+                      </div>
+                  </div>
+
+<!--                     <div class="col-1 mr-1">
+                        <button type="button"class="btn btn-outline-primary waves-effect  p-1" mdbWavesEffect >S/.</button>                      
+                    </div>
+                    <div class="col-4">
+                      <div class="md-form form-sm">
+                          <input mdbActive placeholder="Venta" type="number" id="" class="form-control">
+                          <label for="">Precio de Venta</label>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="md-form form-sm">
+                          <input mdbActive placeholder="Factura" type="number" id="" class="form-control" disabled>
+                          <label for="">Precio de factura</label>
+                      </div>
+                    </div> -->
+
+
+
+                  </div>
+                  
+                </div>
+                <div class="row">
+        <!--                     <div class="col-6">
+                <div class="md-form form-sm">
+                    <input mdbActive placeholder="Ingrese un valor" type="number" id="" class="form-control" [(ngModel)]="stock" (blur)="format(4)">
+                    <label for="">Stock Total</label>
+                </div>
+                </div>
+                <div class="col-6">
+                <div class="md-form form-sm">
+                    <input mdbActive placeholder="Ingrese un valor" type="number" id="" class="form-control" [(ngModel)]="webStock" [disabled]="stock==null">
+                    <label for="">Stock Web</label>
+                </div>
+                </div> -->
+                <div class="col-12 row text-center">
+                    <div class="col-11">
+                    <ngx-select 
+                    [multiple]="true"
+                    [autoClearSearch]="true"
+                    [items]="this.categoryService.catList"
+                    [(ngModel)]="currentCategory"
+                    (typed)="typed2=$event"
+                    placeholder="Seleccione o agregue categorias">
+                    </ngx-select>
+                    </div>
+                    <div class="col-1 m-0">
+                    <button type="button" class="btn btn-indigo waves-light p-2" mdbWavesEffect (click)="addCategory(typed2)"><i class="fa fa-plus text-danger" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <hr/>
+                </div>
+              </div>
+                <div class="text-center mt-2">
+                    <button class="btn btn-info waves-light" mdbWavesEffect (click)="register(form,basicModal)">Registrar <i class="fa fa-sign-in ml-1"></i></button>
+                    <button class="btn btn-danger waves-light" mdbWavesEffect data-dismiss="modal" aria-label="Close" (click)="form.hide()">Cancelar <i class="fa fa-close ml-1"></i></button>
+                </div>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!--Modal: Register Form-->
+
+

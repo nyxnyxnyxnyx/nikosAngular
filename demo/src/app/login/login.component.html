@@ -1,0 +1,54 @@
+<div class="container">
+    <div class="row pt-5">
+        <div class="col-12 col-md-4 mx-auto">
+            <h3 class="card-header default-color white-text">Iniciar Sesión</h3>
+            <div class="card card-body">                      
+<!--                 <form>                  
+                    <div class="md-form">
+                        <i class="fa fa-user prefix grey-text"></i>
+                        <input type="text" id="defaultForm-email" class="form-control" mdbActive [(ngModel)]="loginData.username" name="username">
+                        <label for="defaultForm-email">Usuario</label>
+                    </div>                    
+                    <div class="md-form">
+                        <i class="fa fa-lock prefix grey-text"></i>
+                        <input type="password" id="defaultForm-pass" class="form-control" mdbActive [(ngModel)]="loginData.password" name="password">
+                        <label for="defaultForm-pass">Contraseña</label>
+                    </div>                    
+                    <div class="text-center">
+                        <button class="btn btn-default waves-light" mdbRippleRadius (click)="login()">Iniciar Sesión</button>
+                    </div>
+                </form> -->
+                <form>
+                    <div class="md-form">
+                    <i class="fa fa-user prefix grey-text"></i>
+                    <input [(ngModel)]="loginData.username" mdbInputDirective    [formControl]="emailFormEx" [validateSuccess]="false" [validateError]="false" 
+                        type="text" class="form-control" id="form9" name="username" mdbInputDirective autocomplete="off">
+                    <label for="form9">Usuario</label>
+                    </div>
+
+                    <div class="md-form">
+                    <i class="fa fa-lock prefix grey-text"></i>
+                    <input autocomplete="off" mdbInputDirective data-error="wrong password" [formControl]="passwordFormEx" data-success="valid password" 
+                    [validateSuccess]="false" [validateError]="false" type="password" [(ngModel)]="loginData.password" class="form-control" id="form10" name="password">
+                    <label for="form10">Contraseña</label>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button class="btn btn-default waves-light" mdbRippleRadius (click)="login()">Iniciar Sesión</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+        <div class="row pt-5">
+          <div class="col-6">
+
+          </div>
+        </div>
+      </div>
+
+
+      

@@ -14,7 +14,7 @@ dropdown{
     .dropdown-menu { 
         display: none;
         position: absolute;
-        transform: translate3d(0px, 47px, 0px);
+        transform: translate3d(0px, 37px, 0px);
         top: 0px;
         left: 0px;
         will-change: transform;
@@ -37,7 +37,7 @@ dropdown{
 .dropup.show {
     .dropdown-menu {
         display: block;
-        opacity: 0;
+/*         opacity: 0; */
         transition: 0.55s;
     }
 
@@ -51,7 +51,7 @@ dropdown{
     .dropdown-menu { 
         display: none;
         position: absolute;
-        transform: translate3d(6px, 49px, 0px);
+        transform: translate3d(0px, 37px, 0px);
         top: 0px;
         left: 0px;
         will-change: transform;
@@ -61,7 +61,7 @@ dropdown{
 .dropdown.show {
     .dropdown-menu {
         display: block;
-        opacity: 0;
+       /*  opacity: 0; */
         transition: 0.55s;
     }
 
