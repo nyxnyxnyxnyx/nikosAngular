@@ -16,20 +16,22 @@ import { NgxSelectModule } from 'ngx-select-ex';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProductsComponent } from './products/products.component';
 import { SettingsComponent } from './settings/settings.component';
+import { MainComponent } from './main/main.component'
 import { HttpClientModule } from '@angular/common/http';
 import { UserService } from './services/user.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DecimalPipe } from '@angular/common';
 import { NgxBarcodeModule } from 'ngx-barcode'; 
 import { ToastrModule } from 'ngx-toastr';
+
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuardService] },
   { path: 'products', component: ProductsComponent, canActivate:[AuthGuardService] },
   { path: 'settings', component: SettingsComponent, canActivate:[AuthGuardService] },
-  { path: '',
-    redirectTo: '/login',
-    pathMatch: 'full'
+  { path: '',component: MainComponent,
+/*     redirectTo: '/login',
+    pathMatch: 'full' */
   }/* ,
   { path: '**', component: PageNotFoundComponent } */
 ];
@@ -40,7 +42,8 @@ const appRoutes: Routes = [
     LoginComponent,
     DashboardComponent,
     ProductsComponent,
-    SettingsComponent
+    SettingsComponent,
+    MainComponent
   ],
   imports: [
     BrowserModule,

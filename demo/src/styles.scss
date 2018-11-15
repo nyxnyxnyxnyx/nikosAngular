@@ -233,3 +233,22 @@
       width: 25em;
     }
   }
+
+  .btn-floating{
+    color:#2bbbad !important;
+  }
+
+  .carousel-multi-item .carousel-indicators{
+    margin-right: 0;
+    margin-left: 0;
+    background-color: #2bbbad;
+    bottom:-10%;
+    display: none;
+  }
+
+  .card-footer{
+    background-color:transparent!important;
+  }
+  .carousel-item .col-md-4{
+    padding-bottom: 5px;
+  }
