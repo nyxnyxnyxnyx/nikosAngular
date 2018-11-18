@@ -23,10 +23,12 @@ export class FootwearService {
     public tempColors:String[]=[];
     public tempImages:any[]=[];
     public barcode:number=0;
+    public categoryCount:any={length:0};
   getFootwears(){
     return this.http.get(this.url+"api/footwears",this.httpOptions)
     .subscribe((data) => 
       {
+        console.log(data);
         this.footwears=[];
         for (var index in data){
           this.footwears.push({
@@ -126,6 +128,24 @@ export class FootwearService {
           }
       )
   }
+
+  getCount(){
+    return this.http.get(this.url+"api/footwears/group",{params:{parameter:"categories"}})
+        .toPromise()
+        .then(
+          (data:any)=>{
+            data.forEach(element => {
+              this.categoryCount[element._id]=element.count;
+              this.categoryCount.length++;
+            });
+            console.log(this.categoryCount)
+          },
+          ()=>{
+            
+          }
+      )
+  }
+
 }
 
 

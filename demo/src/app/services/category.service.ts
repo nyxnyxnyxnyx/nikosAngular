@@ -31,7 +31,7 @@ export class CategoryService {
           })
         }
           
-        this.categories=data;    
+        this.categories=data;     
       },
       ()=>{
         

@@ -1,70 +1,23 @@
-<!--Carousel Wrapper-->
-<mdb-carousel [isControls]="true" class="carousel slide" [animation]="'slide'">
-  <!--First slide-->
+<mdb-carousel [isControls]="true" class="carousel slide mt-5" [animation]="'slide'">
   <mdb-carousel-item>
-      <!--Mask color-->
-      <div class="view">
-          <!--Video source-->
-          <video class="video-fluid" autoplay loop>
-              <source src="https://mdbootstrap.com/img/video/Lines.mp4" type="video/mp4" />
-          </video>
-          <div class="mask rgba-indigo-light waves-light" mdbWavesEffect></div>
+      <div class="view mx-auto">
+          <img src="assets/images/Banner.png" class="img-fluid" alt="Responsive image">
+          <div class="mask waves-light" mdbWavesEffect></div>
       </div>
-
-      <!--Caption-->
-      <div class="carousel-caption">
-          <div class="animated fadeInDown">
-              <h3 class="h3-responsive">Light</h3>
-              <p>Niko's</p>
-          </div>
-      </div>
-      <!--Caption-->
   </mdb-carousel-item>
-  <!--/First slide-->
-  <!--Second slide-->
+  <mdb-carousel-item> 
+      <div class="view mx-auto">
+          <img src="assets/images/Banner.png" class="img-fluid" alt="Responsive image">
+          <div class="mask waves-light" mdbWavesEffect></div>
+      </div>
+  </mdb-carousel-item>
   <mdb-carousel-item>
-      <!--Mask color-->
-      <div class="view">
-          <!--Video source-->
-          <video class="video-fluid" autoplay loop>
-              <source src="https://mdbootstrap.com/img/video/animation-intro.mp4" type="video/mp4" />
-          </video>
-          <div class="mask rgba-purple-slight waves-light" mdbWavesEffect></div>
+      <div class="view mx-auto">
+          <img src="assets/images/Banner.png" class="img-fluid" alt="Responsive image">
+          <div class="mask waves-light" mdbWavesEffect></div>
       </div>
-
-      <!--Caption-->
-      <div class="carousel-caption">
-          <div class="animated fadeInDown">
-              <h3 class="h3-responsive">Super light</h3>
-              <p>Niko's</p>
-          </div>
-      </div>
-      <!--Caption-->
   </mdb-carousel-item>
-  <!--/Second slide-->
-  <!--Third slide-->
-  <mdb-carousel-item>
-      <!--Mask color-->
-      <div class="view">
-          <!--Video source-->
-          <video class="video-fluid" autoplay loop>
-              <source src="https://mdbootstrap.com/img/video/Tropical.mp4" type="video/mp4" />
-          </video>
-          <div class="mask rgba-black-strong waves-light" mdbWavesEffect></div>
-      </div>
-
-      <!--Caption-->
-      <div class="carousel-caption">
-          <div class="animated fadeInDown">
-              <h3 class="h3-responsive">Dark</h3>
-              <p>Niko's</p>
-          </div>
-      </div>
-      <!--Caption-->
-  </mdb-carousel-item>
-  <!--/Third slide-->
 </mdb-carousel>
-<!--Carousel Wrapper-->
 <div class="container-fluid my-5">
   <div class="row">
     <div class="col-4">
@@ -72,24 +25,20 @@
           <li class="list-group-item d-flex justify-content-between align-items-center default-color text-white">
             Categorias
           </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            Rojo
-            <span class="badge badge-primary badge-pill">14</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            Verde
-            <span class="badge badge-primary badge-pill">2</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            Azul
-            <span class="badge badge-primary badge-pill">1</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
+          <ng-container *ngFor="let cat of categoryService.categories;let index">
+            <li  *ngIf="footwearService.categoryCount[cat._id]"
+            class="list-group-item d-flex justify-content-between align-items-center">
+              {{cat.name}}
+              <span class="badge badge-primary badge-pill">{{footwearService.categoryCount[cat._id]}}</span>
+            </li >
+          </ng-container>
+          <li *ngIf="footwearService.categoryCount.lenght>9"
+          class="list-group-item d-flex justify-content-between align-items-center">
             Ver mas...
           </li>
         </ul>
 
-      <ul class="list-group mt-5">
+<!--       <ul class="list-group mt-5">
           <li class="list-group-item d-flex justify-content-between align-items-center default-color text-white">
             Tallas
           </li>
@@ -108,7 +57,7 @@
           <li class="list-group-item d-flex justify-content-between align-items-center">
             Ver mas...
           </li>
-        </ul>
+        </ul> -->
     </div>
     <div class="col-8">
       <!--Section: Products v.5-->

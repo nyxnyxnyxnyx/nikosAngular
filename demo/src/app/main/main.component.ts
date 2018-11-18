@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { CategoryService } from './../services/category.service';
+import { FootwearService } from './../services/footwear.service';
+import {  Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-main',
@@ -8,9 +12,14 @@ import { Component, OnInit } from '@angular/core';
 
 export class MainComponent implements OnInit {
 
-    constructor() { }
-
-    ngOnInit() {
+  constructor(public footwearService:FootwearService,public categoryService:CategoryService
+    ,private dp: DecimalPipe,private toastr: ToastrService) {
+     }
+    ngOnInit() {      
+      this.footwearService.getFootwears();
+      this.categoryService.getCategories();
+      this.footwearService.getCount();
     }
+
 }
         
