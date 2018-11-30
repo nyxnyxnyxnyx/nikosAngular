@@ -71,13 +71,13 @@
           <!--Carousel Wrapper-->
           <mdb-carousel [isControls]="true" class="carousel-multi-item multi-animation" [type]="'carousel-multi-item'" [animation]="'slide'">
             <!--First slide-->
-            <mdb-slide>
-              <div class="col-md-4">
+            <mdb-slide *ngFor="let slides of footwearService.count;let i=index;">
+              <div class="col-md-4" *ngIf="footwearService.footwearsData[i*3]">
                 <!--Card-->
                 <mdb-card cascade="true" narrower="true" class="card-ecommerce">
                   <!--Card image-->
                   <div class="view view-cascade overlay waves-light" mdbWavesEffect>
-                    <mdb-card-img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/img%20(39).jpg" alt="sample photo"></mdb-card-img>
+                    <mdb-card-img *ngIf="footwearService.footwears[i*3].images[0]" src="{{footwearService.footwears[i*3].images[0].images}}" alt="sample photo"></mdb-card-img>
                     <a>
                       <div class="mask waves-effect waves-light"></div>
                     </a>
@@ -86,22 +86,22 @@
                   <!--Card content-->
                   <mdb-card-body cascade="true" class="text-center no-padding">
                     <!--Category & Title-->
-                    <a href="" class="text-muted">
-                      <h5>Shoes</h5>
+                    <a href="" class="text-muted" *ngIf="footwearService.footwearsData[i*3].categories[0]">
+                      <h5>{{footwearService.footwearsData[i*3].categories[0].name}}</h5>
                     </a>
                     <mdb-card-title>
                       <h4 class="card-title my-4">
                         <strong>
-                          <a href="">Leather boots</a>
+                          <a href="">{{footwearService.footwearsData[i*3].name}}</a>
                         </strong>
                       </h4>
                     </mdb-card-title>
                     <!--Description-->
-                    <mdb-card-text>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci.
+                    <mdb-card-text>{{footwearService.footwearsData[i*3].description}}
                     </mdb-card-text>
                     <!--Card footer-->
                     <mdb-card-footer>
-                      <span class="float-left">69$</span>
+                      <span class="float-left">{{footwearService.footwearsData[i*3].price}}$</span>
                       <span class="float-right">
                         <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Quick Look">
                           <i class="fa fa-eye ml-3"></i>
@@ -116,12 +116,12 @@
                 </mdb-card>
                 <!--Card-->
               </div>
-              <div class="col-md-4 clearfix d-none d-md-block">
+              <div class="col-md-4" *ngIf="footwearService.footwearsData[i*3+1]">
                 <!--Card-->
                 <mdb-card cascade="true" narrower="true" class="card-ecommerce">
                   <!--Card image-->
                   <div class="view view-cascade overlay waves-light" mdbWavesEffect>
-                    <mdb-card-img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/img%20(22).jpg" alt="sample photo"></mdb-card-img>
+                    <mdb-card-img *ngIf="footwearService.footwears[i*3+1].images[0]" src="{{footwearService.footwears[i*3+1].images[0].images}}" alt="sample photo"></mdb-card-img>
                     <a>
                       <div class="mask waves-effect waves-light"></div>
                     </a>
@@ -130,22 +130,22 @@
                   <!--Card content-->
                   <mdb-card-body cascade="true" class="text-center no-padding">
                     <!--Category & Title-->
-                    <a href="" class="text-muted">
-                      <h5>Jeans</h5>
+                    <a href="" class="text-muted" *ngIf="footwearService.footwearsData[i*3+1].categories[0]">
+                      <h5>{{footwearService.footwearsData[i*3+1].categories[0].name}}</h5>
                     </a>
                     <mdb-card-title>
                       <h4 class="card-title my-4">
                         <strong>
-                          <a href="">Slim jeans</a>
+                          <a href="">{{footwearService.footwearsData[i*3+1].name}}</a>
                         </strong>
                       </h4>
                     </mdb-card-title>
                     <!--Description-->
-                    <mdb-card-text>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci.
+                    <mdb-card-text>{{footwearService.footwearsData[i*3+1].description}}
                     </mdb-card-text>
                     <!--Card footer-->
                     <mdb-card-footer>
-                      <span class="float-left">69$</span>
+                      <span class="float-left">{{footwearService.footwearsData[i*3].price}}$</span>
                       <span class="float-right">
                         <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Quick Look">
                           <i class="fa fa-eye ml-3"></i>
@@ -160,12 +160,12 @@
                 </mdb-card>
                 <!--Card-->
               </div>
-              <div class="col-md-4 clearfix d-none d-md-block">
+              <div class="col-md-4" *ngIf="footwearService.footwearsData[i*3+2]">
                 <!--Card-->
                 <mdb-card cascade="true" narrower="true" class="card-ecommerce">
                   <!--Card image-->
                   <div class="view view-cascade overlay waves-light" mdbWavesEffect>
-                    <mdb-card-img src="https://mdbootstrap.com/img/Photos/Others/img%20(31).jpg" alt="sample photo"></mdb-card-img>
+                    <mdb-card-img *ngIf="footwearService.footwears[i*3+2].images[0]" src="{{footwearService.footwears[i*3+2].images[0].images}}" alt="sample photo"></mdb-card-img>
                     <a>
                       <div class="mask waves-effect waves-light"></div>
                     </a>
@@ -174,158 +174,22 @@
                   <!--Card content-->
                   <mdb-card-body cascade="true" class="text-center no-padding">
                     <!--Category & Title-->
-                    <a href="" class="text-muted">
-                      <h5>Shorts</h5>
+                    <a href="" class="text-muted" *ngIf="footwearService.footwearsData[i*3+2].categories[0]">
+                      <h5>{{footwearService.footwearsData[i*3+2].categories[0].name}}</h5>
                     </a>
                     <mdb-card-title>
                       <h4 class="card-title my-4">
                         <strong>
-                          <a href="">Denim shorts</a>
+                          <a href="">{{footwearService.footwearsData[i*3+2].name}}</a>
                         </strong>
                       </h4>
                     </mdb-card-title>
                     <!--Description-->
-                    <mdb-card-text>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci.
+                    <mdb-card-text>{{footwearService.footwearsData[i*3+2].description}}
                     </mdb-card-text>
                     <!--Card footer-->
                     <mdb-card-footer>
-                      <span class="float-left">69$</span>
-                      <span class="float-right">
-                        <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Quick Look">
-                          <i class="fa fa-eye ml-3"></i>
-                        </a>
-                        <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist">
-                          <i class="fa fa-heart ml-3"></i>
-                        </a>
-                      </span>
-                    </mdb-card-footer>
-                  </mdb-card-body>
-                  <!--Card content-->
-                </mdb-card>
-                <!--Card-->
-              </div>
-            </mdb-slide>
-            <!--/First slide-->
-            <!--Second slide-->
-            <mdb-slide>
-              <div class="col-md-4">
-                <!--Card-->
-                <mdb-card cascade="true" narrower="true" class="card-ecommerce">
-                  <!--Card image-->
-                  <div class="view view-cascade overlay waves-light" mdbWavesEffect>
-                    <mdb-card-img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/img%20(30).jpg" alt="sample photo"></mdb-card-img>
-                    <a>
-                      <div class="mask waves-effect waves-light"></div>
-                    </a>
-                  </div>
-                  <!--Card image-->
-                  <!--Card content-->
-                  <mdb-card-body cascade="true" class="text-center no-padding">
-                    <!--Category & Title-->
-                    <a href="" class="text-muted">
-                      <h5>Accessories</h5>
-                    </a>
-                    <mdb-card-title>
-                      <h4 class="card-title my-4">
-                        <strong>
-                          <a href="">Summer hat</a>
-                        </strong>
-                      </h4>
-                    </mdb-card-title>
-                    <!--Description-->
-                    <mdb-card-text>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci.
-                    </mdb-card-text>
-                    <!--Card footer-->
-                    <mdb-card-footer>
-                      <span class="float-left">69$</span>
-                      <span class="float-right">
-                        <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Quick Look">
-                          <i class="fa fa-eye ml-3"></i>
-                        </a>
-                        <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist">
-                          <i class="fa fa-heart ml-3"></i>
-                        </a>
-                      </span>
-                    </mdb-card-footer>
-                  </mdb-card-body>
-                  <!--Card content-->
-                </mdb-card>
-                <!--Card-->
-              </div>
-              <div class="col-md-4 clearfix d-none d-md-block">
-                <!--Card-->
-                <mdb-card cascade="true" narrower="true" class="card-ecommerce">
-                  <!--Card image-->
-                  <div class="view view-cascade overlay waves-light" mdbWavesEffect>
-                    <mdb-card-img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/img%20(37).jpg" alt="sample photo"></mdb-card-img>
-                    <a>
-                      <div class="mask waves-effect waves-light"></div>
-                    </a>
-                  </div>
-                  <!--Card image-->
-                  <!--Card content-->
-                  <mdb-card-body cascade="true" class="text-center no-padding">
-                    <!--Category & Title-->
-                    <a href="" class="text-muted">
-                      <h5>Shoes</h5>
-                    </a>
-                    <mdb-card-title>
-                      <h4 class="card-title my-4">
-                        <strong>
-                          <a href="">Black heels</a>
-                        </strong>
-                      </h4>
-                    </mdb-card-title>
-                    <!--Description-->
-                    <mdb-card-text>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci.
-                    </mdb-card-text>
-                    <!--Card footer-->
-                    <mdb-card-footer>
-                      <span class="float-left">69$</span>
-                      <span class="float-right">
-                        <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Quick Look">
-                          <i class="fa fa-eye ml-3"></i>
-                        </a>
-                        <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist">
-                          <i class="fa fa-heart ml-3"></i>
-                        </a>
-                      </span>
-                    </mdb-card-footer>
-                  </mdb-card-body>
-                  <!--Card content-->
-                </mdb-card>
-                <!--Card-->
-              </div>
-              <div class="col-md-4 clearfix d-none d-md-block">
-                <!--Card-->
-                <mdb-card cascade="true" narrower="true" class="card-ecommerce">
-                  <!--Card image-->
-                  <div class="view view-cascade overlay waves-light" mdbWavesEffect>
-                    <mdb-card-img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/img%20(31).jpg" alt="sample photo"></mdb-card-img>
-                    <a>
-                      <div class="mask waves-effect waves-light"></div>
-                    </a>
-                  </div>
-                  <!--Card image-->
-                  <!--Card content-->
-                  <mdb-card-body cascade="true" class="text-center no-padding">
-                    <!--Category & Title-->
-                    <a href="" class="text-muted">
-                      <h5>Outerwear</h5>
-                    </a>
-                    <mdb-card-title>
-                      <h4 class="card-title my-4">
-                        <strong>
-                          <a href="">Black jacket</a>
-                        </strong>
-                      </h4>
-                    </mdb-card-title>
-                    <!--Description-->
-                    <mdb-card-text>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci.
-                    </mdb-card-text>
-                    <!--Card footer-->
-                    <mdb-card-footer>
-                      <span class="float-left">69$</span>
+                      <span class="float-left">{{footwearService.footwearsData[i*3].price}}$</span>
                       <span class="float-right">
                         <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Quick Look">
                           <i class="fa fa-eye ml-3"></i>
@@ -341,143 +205,6 @@
                 <!--Card-->
               </div>
             </mdb-slide>
-            <!--/Second slide-->
-            <!--Third slide-->
-            <mdb-slide>
-              <div class="col-md-4">
-                <!--Card-->
-                <mdb-card cascade="true" narrower="true" class="card-ecommerce">
-                  <!--Card image-->
-                  <div class="view view-cascade overlay waves-light" mdbWavesEffect>
-                    <mdb-card-img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/img%20(38).jpg" alt="sample photo"></mdb-card-img>
-                    <a>
-                      <div class="mask waves-effect waves-light"></div>
-                    </a>
-                  </div>
-                  <!--Card image-->
-                  <!--Card content-->
-                  <mdb-card-body cascade="true" class="text-center no-padding">
-                    <!--Category & Title-->
-                    <a href="" class="text-muted">
-                      <h5>Accessories</h5>
-                    </a>
-                    <mdb-card-title>
-                      <h4 class="card-title my-4">
-                        <strong>
-                          <a href="">Leather bag</a>
-                        </strong>
-                      </h4>
-                    </mdb-card-title>
-                    <!--Description-->
-                    <mdb-card-text>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci.
-                    </mdb-card-text>
-                    <!--Card footer-->
-                    <mdb-card-footer>
-                      <span class="float-left">69$</span>
-                      <span class="float-right">
-                        <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Quick Look">
-                          <i class="fa fa-eye ml-3"></i>
-                        </a>
-                        <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist">
-                          <i class="fa fa-heart ml-3"></i>
-                        </a>
-                      </span>
-                    </mdb-card-footer>
-                  </mdb-card-body>
-                  <!--Card content-->
-                </mdb-card>
-                <!--Card-->
-              </div>
-              <div class="col-md-4 clearfix d-none d-md-block">
-                <!--Card-->
-                <mdb-card cascade="true" narrower="true" class="card-ecommerce">
-                  <!--Card image-->
-                  <div class="view view-cascade overlay waves-light" mdbWavesEffect>
-                    <mdb-card-img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/belt.jpg" alt="sample photo"></mdb-card-img>
-                    <a>
-                      <div class="mask waves-effect waves-light"></div>
-                    </a>
-                  </div>
-                  <!--Card image-->
-                  <!--Card content-->
-                  <mdb-card-body cascade="true" class="text-center no-padding">
-                    <!--Category & Title-->
-                    <a href="" class="text-muted">
-                      <h5>Accessories</h5>
-                    </a>
-                    <mdb-card-title>
-                      <h4 class="card-title my-4">
-                        <strong>
-                          <a href="">Leather belt</a>
-                        </strong>
-                      </h4>
-                    </mdb-card-title>
-                    <!--Description-->
-                    <mdb-card-text>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci.
-                    </mdb-card-text>
-                    <!--Card footer-->
-                    <mdb-card-footer>
-                      <span class="float-left">69$</span>
-                      <span class="float-right">
-                        <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Quick Look">
-                          <i class="fa fa-eye ml-3"></i>
-                        </a>
-                        <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist">
-                          <i class="fa fa-heart ml-3"></i>
-                        </a>
-                      </span>
-                    </mdb-card-footer>
-                  </mdb-card-body>
-                  <!--Card content-->
-                </mdb-card>
-                <!--Card-->
-              </div>
-              <div class="col-md-4 clearfix d-none d-md-block">
-                <!--Card-->
-                <mdb-card cascade="true" narrower="true" class="card-ecommerce">
-                  <!--Card image-->
-                  <div class="view view-cascade overlay waves-light" mdbWavesEffect>
-                    <mdb-card-img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/img%20(57).jpg" alt="sample photo"></mdb-card-img>
-                    <a>
-                      <div class="mask waves-effect waves-light"></div>
-                    </a>
-                  </div>
-                  <!--Card image-->
-                  <!--Card content-->
-                  <mdb-card-body cascade="true" class="text-center no-padding">
-                    <!--Category & Title-->
-                    <a href="" class="text-muted">
-                      <h5>Shoes</h5>
-                    </a>
-                    <mdb-card-title>
-                      <h4 class="card-title my-4">
-                        <strong>
-                          <a href="">Sneakers</a>
-                        </strong>
-                      </h4>
-                    </mdb-card-title>
-                    <!--Description-->
-                    <mdb-card-text>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci.
-                    </mdb-card-text>
-                    <!--Card footer-->
-                    <mdb-card-footer>
-                      <span class="float-left">69$</span>
-                      <span class="float-right">
-                        <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Quick Look">
-                          <i class="fa fa-eye ml-3"></i>
-                        </a>
-                        <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist">
-                          <i class="fa fa-heart ml-3"></i>
-                        </a>
-                      </span>
-                    </mdb-card-footer>
-                  </mdb-card-body>
-                  <!--Card content-->
-                </mdb-card>
-                <!--Card-->
-              </div>
-            </mdb-slide>
-            <!--/Third slide-->
           </mdb-carousel>
           <!--/.Carousel Wrapper-->
         

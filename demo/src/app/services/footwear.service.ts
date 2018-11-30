@@ -18,6 +18,8 @@ export class FootwearService {
   constructor(private http: HttpClient, public router:Router,private toastr: ToastrService) { }
 
     footwears:any[]=[];
+    footwearsData:any=[];
+    count:any[]=[];
     footwear:Object={};
     public sizes:Boolean[]=new Array(23);
     public tempColors:String[]=[];
@@ -28,14 +30,24 @@ export class FootwearService {
     return this.http.get(this.url+"api/footwears",this.httpOptions)
     .subscribe((data) => 
       {
-        console.log(data);
+        this.footwearsData = data;
         this.footwears=[];
+        this.count=[];
         for (var index in data){
+          if(data[index]["images"].length>0){
+            var result = Object.keys(data[index]["images"][0]).map((key) =>{
+              return {color:key, images:this.url + data[index]["images"][0][key]};
+            });
+            this.tempImages=result;
+          }
           this.footwears.push({
             id:data[index]._id,
-            text:data[index].code+" - "+data[index].name
+            text:data[index].code+" - "+data[index].name,
+            images:this.tempImages
           })
         }
+        console.log(this.footwears);
+        this.count=new Array(Math.ceil(this.footwears.length/3));
             
       },
       ()=>{
